@@ -1,0 +1,44 @@
+﻿@page "/statusProcesso"
+
+@using Models;
+@using Services;
+
+@inject IStatusProcessoService StatusService;
+
+<h3>StatusProcesso</h3>
+
+@if (status == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Valor</th>
+                <th>Texto</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in status)
+            {
+                <tr>
+                    <td>@item.Text</td>
+                    <td>@item.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    private SelectValueText[] status;
+
+    protected override async Task OnInitializedAsync()
+    {
+        status = await StatusService.ListarStatus();
+    }
+}
